@@ -13,17 +13,17 @@
     {
       "id": 1,
       "full_name": "Sebastian",
-      "salary_type": 1
+      "post": "Manager"
     },
     {
       "id": 2,
-      "first_name": "Steve",
-      "salary_type": 2
+      "full_name": "Steve",
+      "post": "Manager"
     },
     {
       "id": 3,
-      "first_name": "Ann",
-      "salary_type": 1
+      "full_name": "Anna",
+      "post": "Bookkeeper"
     }
   ],
 
@@ -52,7 +52,19 @@
     {
       "id": 2,
       "brand": "Audi",
-      "price": 15000
+      "price": 20000
+    },
+
+    {
+      "id": 3,
+      "brand": "Lexus",
+      "price": 25000
+    },
+
+    {
+      "id": 4,
+      "brand": "Ford",
+      "price": 10000
     }
   ]
 
