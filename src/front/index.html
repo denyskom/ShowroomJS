@@ -38,7 +38,45 @@
 
 
 <template id = "productCard">
-    <div class="row">
+   <div class="container">
+       <div class="card">
+           <div class="card-body">
+               <div class="card text-right">
+                   <div class="card-body">
+                       <h5 class="card-title text-left"></h5>
+                       <p class="card-text text-left" id="productDescription"></p>
+                       <p class="card-text" id="productPrice">Price: </p>
+                       <a href="#" class="btn btn-primary">Add to List</a>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</template>
+
+<template id="employeeTable">
+    <div class="container">
+        <table class="table table-striped" id="tableHead">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Post</th>
+            </tr>
+            </thead>
+            <tbody id="tableBody">
+            <tr id="tableRow">
+                <th scope="row" id="thId"></th>
+                <td><a class="table-button" id="thName"></a></td>
+                <td id="thPost"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<template id = "dealCard">
+    <div class="card">
         <div class="card-body">
             <div class="card text-right">
                 <div class="card-body">
@@ -49,25 +87,6 @@
             </div>
         </div>
     </div>
-</template>
-
-<template id="employeeTable">
-    <table class="table table-striped" id="tableHead">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Post</th>
-        </tr>
-        </thead>
-        <tbody id="tableBody">
-        <tr id="tableRow">
-            <th scope="row" id="thId"></th>
-            <td><a class="table-link" id="thName"></a></td>
-            <td id="thPost"></td>
-        </tr>
-        </tbody>
-    </table>
 </template>
 
 

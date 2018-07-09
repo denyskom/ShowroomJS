@@ -16,14 +16,15 @@ function loadAssortment() {
 }
 
 function renderAssortment(assortment) {
-    let assortmentCardTemplate = document.querySelector('#productCard');
     let mainContent = document.querySelector("#mainContent");
+    let assortmentCardTemplate = document.querySelector('#productCard');
     mainContent.innerHTML = "";
 
     assortment.forEach(function (product) {
         let templateClone = assortmentCardTemplate.content.cloneNode(true);
         templateClone.querySelector(".card-title").innerHTML += `${product.brand}`;
-        templateClone.querySelector(".card-text").innerHTML += `${product.price}$`;
+        templateClone.querySelector("#productDescription").innerHTML += `${product.description}`;
+        templateClone.querySelector("#productPrice").innerHTML += `${product.price}$`;
 
         mainContent.appendChild(templateClone);
     });
