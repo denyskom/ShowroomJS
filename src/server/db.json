@@ -1,0 +1,60 @@
+{
+  "salary_type": [
+    {
+      "id": 1,
+      "type": "FIXED"
+    },
+    {
+      "id": 2,
+      "type": "PERCENTAGE"
+    }
+  ],
+  "employees": [
+    {
+      "id": 1,
+      "full_name": "Sebastian",
+      "salary_type": 1
+    },
+    {
+      "id": 2,
+      "first_name": "Steve",
+      "salary_type": 2
+    },
+    {
+      "id": 3,
+      "first_name": "Ann",
+      "salary_type": 1
+    }
+  ],
+
+  "deals": [
+    {
+      "id": 1,
+      "sellerId": 1
+    },
+    {
+      "id": 2,
+      "sellerId": 2
+    },
+    {
+      "id": 3,
+      "sellerId": 3
+    }
+  ],
+
+  "assortment": [
+    {
+      "id": 1,
+      "brand": "BMW",
+      "price": 15000
+    },
+
+    {
+      "id": 2,
+      "brand": "Audi",
+      "price": 15000
+    }
+  ]
+
+
+}
