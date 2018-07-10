@@ -57,7 +57,7 @@
 
 <template id="employeeTable">
     <div class="container">
-        <table class="table border table-striped" id="tableHead">
+        <table class="table border table-striped mt-4" id="tableHead">
             <thead>
             <tr>
                 <th scope="col">#</th>
@@ -73,13 +73,16 @@
                 <td><a class="table-link" href="#"></a></td>
                 <td id="thPost"></td>
                 <td id="thSalary"></td>
-                <td><button class="btn btn-dark btn-small" type="submit">
-                    Delete
-                </button></td>
+                <td>
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                        <button class="edit btn btn-outline-primary" type="submit">Edit</button>
+                        <button class="delete btn btn-outline-dark btn-small" type="submit">Delete</button>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-dark btn-lg btn-block" id="hireButton">Hire</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg btn-block" id="hireButton">Hire</button>
     </div>
 </template>
 
@@ -90,9 +93,15 @@
                 <div class="card text-right">
                     <div class="card-body">
                         <h5 class="card-title text-left" id="dealId">Deal ID: </h5>
-                        <ul class="list-group text-left">
-                            <li class="list-group-item "></li>
-                        </ul>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="deal-product card-title"></h5>
+                                <p class="deal-description card-text"></p>
+                            </div>
+                        </div>
+                        <!--<ul class="list-group text-left">-->
+                            <!--<li class="list-group-item "></li>-->
+                        <!--</ul>-->
                         <p class="card-text" id="dealManager">Manager: </p>
                         <p class="card-text" id="dealPrice">Total Price: </p>
                     </div>
@@ -102,21 +111,22 @@
     </div>
 </template>
 <template id="hireTemplate">
-    <div class="container">
+    <div class="container mt-4">
+        <h3 class="mb-4" id="hireTitle">Create new employee:</h3>
         <form>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputName">Full Name:</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Name">
+                    <input type="text" class="form-control" id="inputName" placeholder="Name" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-4">
                     <label for="inputPost">Post: </label>
-                    <input type="text" class="form-control" id="inputPost">
+                    <input type="text" class="form-control" id="inputPost" required>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputSalary">Salary</label>
-                    <input type="text" class="form-control" id="inputSalary" placeholder="Salary">
+                    <input type="text" class="form-control" id="inputSalary" placeholder="Salary" required>
                 </div>
 
                 <div class="form-group col-md-4">
@@ -131,19 +141,24 @@
     </div>
 </template>
 
-<template id="newDealTemplate">
+<template id="newDeal">
     <div class="container">
        <form>
            <div class="card border-0">
                <div class="card-body">
-                   <div class="card text-right">
-                       <div class="card-body">
-                           <!--<h5 class="card-title text-left" id="dealProduct"></h5>-->
-                           <p class="card-text text-left" id="newDealDescription">Description: </p>
-                           <select id="newDealManager" class="form-control">
-                               <option class="managerOption">...</option>
+                   <div class="card">
+                       <div class="card-body text-right">
+                           <div class="text-left">
+                               <h5 class="card-title" id="dealProduct"></h5>
+                               <p class="card-text" id="newDealDescription"></p>
+                           </div>
+                           <p class="text-left md-0"><label for="managers">Manager: </label></p>
+                           <select id="managers" class="form-control col-md-4">
+                               <option class="managerOption"></option>
                            </select>
                            <p class="card-text" id="newDealPrice">Total Price: </p>
+                           <input type="hidden" class="productId">
+                           <input type="hidden" class="dealPrice">
                            <button type="submit" class="btn btn-primary" id="dealButton">Add Deal</button>
                        </div>
                    </div>
@@ -152,6 +167,5 @@
        </form>
     </div>
 </template>
-
 </body>
 </html>

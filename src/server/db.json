@@ -62,19 +62,19 @@
     {
       "id": 2,
       "brand": "Audi",
-      "description": "Designed For Driving Pleasure",
+      "description": "Truth in Engineering",
       "price": 20000
     },
     {
       "id": 3,
       "brand": "Lexus",
-      "description": "Designed For Driving Pleasure",
+      "description": "The Relentless Pursuit of Perfection",
       "price": 25000
     },
     {
       "id": 4,
       "brand": "Ford",
-      "description": "Designed For Driving Pleasure",
+      "description": "Everything We Do Is Driven By You",
       "price": 10000
     }
   ]
