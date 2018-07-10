@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test</title>
+    <title>Showroom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src ="main.js"></script>
@@ -43,7 +44,7 @@
                        <h5 class="card-title text-left"></h5>
                        <p class="card-text text-left" id="productDescription"></p>
                        <p class="card-text" id="productPrice">Price: </p>
-                       <a href="#" class="btn btn-primary">Add to List</a>
+                       <a href="#" class="btn btn-primary">Create Deal</a>
                    </div>
                </div>
            </div>
@@ -59,6 +60,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Post</th>
+                <th scope="col">Salary</th>
             </tr>
             </thead>
             <tbody id="tableBody">
@@ -66,28 +68,64 @@
                 <th scope="row" id="thId"></th>
                 <td><a class="table-button" id="thName"></a></td>
                 <td id="thPost"></td>
+                <td id="thSalary"></td>
             </tr>
             </tbody>
         </table>
+        <button type="button" class="btn btn-dark btn-lg btn-block" id="hireButton">Hire</button>
     </div>
 </template>
 
 <template id = "dealCard">
-    <div class="container">
+    <div class="container" id="dealCardContainer">
         <div class="card">
             <div class="card-body">
                 <div class="card text-right">
                     <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="card-text">Price: </p>
-                        <a href="#" class="btn btn-primary">Add to List</a>
+                        <h5 class="card-title text-left" id="dealId">Deal ID: </h5>
+                        <ul class="list-group text-left">
+                            <li class="list-group-item "></li>
+                        </ul>
+                        <p class="card-text" id="dealManager">Manager: </p>
+                        <p class="card-text" id="dealPrice">Total Price: </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+<template id="hireTemplate">
+    <div class="container">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputName">Full Name:</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="inputPost">Post: </label>
+                    <input type="text" class="form-control" id="inputPost">
+                </div>
 
+                <div class="form-group col-md-6">
+                    <label for="inputSalary">Salary</label>
+                    <input type="text" class="form-control" id="inputSalary" placeholder="Salary">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="inputSalaryType">State</label>
+                    <select id="inputSalaryType" class="form-control">
+                        <option class="salaryOption">...</option>
+                    </select>
+                </div>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary" id="addButton">Hire</button>
+        </form>
+    </div>
+</template>
 
 </body>
 </html>

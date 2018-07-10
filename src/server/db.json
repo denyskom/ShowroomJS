@@ -2,46 +2,56 @@
   "salary_type": [
     {
       "id": 1,
-      "type": "FIXED"
+      "name": "Fixed"
     },
     {
       "id": 2,
-      "type": "PERCENTAGE"
+      "name": "Percentage"
     }
   ],
   "employees": [
     {
       "id": 1,
-      "full_name": "Sebastian",
-      "post": "Manager"
+      "full_name": "Sebastian Bach",
+      "post": "Manager",
+      "salary_type": 2,
+      "salary": "%"
     },
     {
       "id": 2,
-      "full_name": "Steve",
-      "post": "Manager"
+      "full_name": "Stevie Wonder",
+      "post": "Manager",
+      "salary_type": 2,
+      "salary": "%"
     },
     {
       "id": 3,
-      "full_name": "Anna",
-      "post": "Bookkeeper"
+      "full_name": "Anna Kournikova",
+      "post": "Bookkeeper",
+      "salary_type": 1,
+      "salary": "5000"
     }
   ],
-
   "deals": [
     {
       "id": 1,
-      "sellerId": 1
+      "sellerId": 1,
+      "productId": 3,
+      "price": 15000
     },
     {
       "id": 2,
-      "sellerId": 2
+      "sellerId": 2,
+      "productId": 4,
+      "price": 20000
     },
     {
       "id": 3,
-      "sellerId": 3
+      "sellerId": 2,
+      "productId": 2,
+      "price": 25000
     }
   ],
-
   "assortment": [
     {
       "id": 1,
@@ -49,21 +59,18 @@
       "description": "Designed For Driving Pleasure",
       "price": 15000
     },
-
     {
       "id": 2,
       "brand": "Audi",
       "description": "Designed For Driving Pleasure",
       "price": 20000
     },
-
     {
       "id": 3,
       "brand": "Lexus",
       "description": "Designed For Driving Pleasure",
       "price": 25000
     },
-
     {
       "id": 4,
       "brand": "Ford",
@@ -71,6 +78,4 @@
       "price": 10000
     }
   ]
-
-
 }
