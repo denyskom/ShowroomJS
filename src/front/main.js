@@ -29,12 +29,40 @@ function renderAssortment(assortment) {
 
     assortment.forEach(function (product) {
         let templateClone = assortmentCardTemplate.content.cloneNode(true);
-        templateClone.querySelector(".card-title").innerHTML += `${product.brand}`;
+        templateClone.querySelector("#dealTitle").innerHTML += `${product.brand}`;
         templateClone.querySelector("#productDescription").innerHTML += `${product.description}`;
         templateClone.querySelector("#productPrice").innerHTML += `${product.price}$`;
+        templateClone.querySelector(".productId").value = `${product.id}`;
+        templateClone.querySelector(".btn").onclick = function (e) {
+            e.preventDefault();
+            let id = Number(`${product.id}`);
+            renderNewDealForm(id);
+        };
 
         mainContent.appendChild(templateClone);
     });
+
+}
+
+function renderNewDealForm(productId) {
+    console.log(productId);
+    let dealTemplateCopy = document.querySelector("#newDealTemplate").content.cloneNode(true);
+    let mainContent = document.querySelector("#mainContent");
+    mainContent.innerHTML = "";
+
+    loadProduct(productId).then((product) => {
+        // dealTemplateCopy.querySelector("#dealProduct").innerHTML += `${product.brand}`;
+        dealTemplateCopy.querySelector("#newDealDescription").innerHTML += `${product.description}`;
+        dealTemplateCopy.querySelector("#newDealPrice").innerHTML += `${product.price}$`;
+        dealTemplateCopy.querySelector("#dealButton").onclick = addNewDeal;
+
+    });
+
+    mainContent.appendChild(dealTemplateCopy);
+
+}
+function addNewDeal(e) {
+
 }
 
 function loadAndRenderAssortment() {
@@ -62,9 +90,15 @@ function renderEmployeeList(employees) {
     employees.forEach(function (employee) {
         let clonedRow = row.cloneNode(true);
         clonedRow.querySelector("#thId").innerHTML = `${employee.id}`;
-        clonedRow.querySelector("#thName").innerHTML = `${employee.full_name}`;
+        clonedRow.querySelector(".table-link").innerHTML = `${employee.full_name}`;
         clonedRow.querySelector("#thPost").innerHTML = `${employee.post}`;
         clonedRow.querySelector("#thSalary").innerHTML = `${employee.salary}`;
+        clonedRow.querySelector(".btn").onclick = function (e) {
+            e.preventDefault();
+            let deleteUrl = employeesUrl.concat(`/${employee.id}`);
+            fetch(deleteUrl, {method:'DELETE'}).then(() => loadAndRenderEmployee());
+        };
+
 
         body.appendChild(clonedRow);
     });
@@ -136,8 +170,8 @@ function renderDeals(deals) {
             .then((manager) => templateClone.querySelector("#dealManager").innerHTML += `${manager.full_name}`);
         loadProduct(`${deal.productId}`)
             .then((product) => {
-                templateClone.querySelector(".list-group-item").innerHTML +=
-                    `${product.brand} ${product.description}`;
+                templateClone.querySelector(".list-group-item")
+                    .innerHTML += `${product.brand} ${product.description}`;
                 templateClone.querySelector("#dealPrice").innerHTML += `${product.price}$`;
             });
         templateClone.querySelector("#dealId").innerHTML += `${deal.id}`;

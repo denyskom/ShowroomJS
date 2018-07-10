@@ -37,38 +37,45 @@
 
 <template id = "productCard">
    <div class="container">
-       <div class="card">
-           <div class="card-body">
-               <div class="card text-right">
-                   <div class="card-body">
-                       <h5 class="card-title text-left"></h5>
-                       <p class="card-text text-left" id="productDescription"></p>
-                       <p class="card-text" id="productPrice">Price: </p>
-                       <a href="#" class="btn btn-primary">Create Deal</a>
+       <form>
+           <div class="card border-0">
+               <div class="card-body">
+                   <div class="card text-right">
+                       <div class="card-body">
+                           <h5 class="card-title text-left" id="dealTitle"></h5>
+                           <p class="card-text text-left" id="productDescription"></p>
+                           <p class="card-text" id="productPrice">Price: </p>
+                           <input type="hidden" class="productId">
+                           <button type="submit" class="btn btn-primary">Create Deal</button>
+                       </div>
                    </div>
                </div>
            </div>
-       </div>
+       </form>
    </div>
 </template>
 
 <template id="employeeTable">
     <div class="container">
-        <table class="table table-striped" id="tableHead">
+        <table class="table border table-striped" id="tableHead">
             <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Post</th>
                 <th scope="col">Salary</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody id="tableBody">
             <tr id="tableRow">
                 <th scope="row" id="thId"></th>
-                <td><a class="table-button" id="thName"></a></td>
+                <td><a class="table-link" href="#"></a></td>
                 <td id="thPost"></td>
                 <td id="thSalary"></td>
+                <td><button class="btn btn-dark btn-small" type="submit">
+                    Delete
+                </button></td>
             </tr>
             </tbody>
         </table>
@@ -78,7 +85,7 @@
 
 <template id = "dealCard">
     <div class="container" id="dealCardContainer">
-        <div class="card">
+        <div class="card border-0">
             <div class="card-body">
                 <div class="card text-right">
                     <div class="card-body">
@@ -113,17 +120,36 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="inputSalaryType">State</label>
+                    <label for="inputSalaryType">Salary Type</label>
                     <select id="inputSalaryType" class="form-control">
                         <option class="salaryOption">...</option>
                     </select>
                 </div>
             </div>
-
-
-
             <button type="submit" class="btn btn-primary" id="addButton">Hire</button>
         </form>
+    </div>
+</template>
+
+<template id="newDealTemplate">
+    <div class="container">
+       <form>
+           <div class="card border-0">
+               <div class="card-body">
+                   <div class="card text-right">
+                       <div class="card-body">
+                           <!--<h5 class="card-title text-left" id="dealProduct"></h5>-->
+                           <p class="card-text text-left" id="newDealDescription">Description: </p>
+                           <select id="newDealManager" class="form-control">
+                               <option class="managerOption">...</option>
+                           </select>
+                           <p class="card-text" id="newDealPrice">Total Price: </p>
+                           <button type="submit" class="btn btn-primary" id="dealButton">Add Deal</button>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </form>
     </div>
 </template>
 
