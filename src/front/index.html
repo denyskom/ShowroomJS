@@ -70,7 +70,7 @@
             <tbody id="tableBody">
             <tr id="tableRow">
                 <th scope="row" id="thId"></th>
-                <td><a class="table-link" href="#"></a></td>
+                <td><a class="table-link"></a></td>
                 <td id="thPost"></td>
                 <td id="thSalary"></td>
                 <td>
@@ -88,20 +88,22 @@
 
 <template id = "dealCard">
     <div class="container" id="dealCardContainer">
-        <div class="card border-0">
+        <div class="no-deals card border-0" id="noDeal">
+            <div class="card-body">
+                <h3  class="text-center">There is no deals</h3>
+            </div>
+        </div>
+        <div class="deal-card card border-0">
             <div class="card-body">
                 <div class="card text-right">
                     <div class="card-body">
                         <h5 class="card-title text-left" id="dealId">Deal ID: </h5>
-                        <div class="card">
+                        <div class="card text-left">
                             <div class="card-body">
                                 <h5 class="deal-product card-title"></h5>
                                 <p class="deal-description card-text"></p>
                             </div>
                         </div>
-                        <!--<ul class="list-group text-left">-->
-                            <!--<li class="list-group-item "></li>-->
-                        <!--</ul>-->
                         <p class="card-text" id="dealManager">Manager: </p>
                         <p class="card-text" id="dealPrice">Total Price: </p>
                     </div>

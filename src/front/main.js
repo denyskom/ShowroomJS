@@ -131,11 +131,18 @@ function renderEmployeeList(employees) {
 
         let nameLink = clonedRow.querySelector(".table-link");
         nameLink.innerHTML = `${employee.full_name}`;
+
+        if(`${employee.salary_type}` == 2) {
+            nameLink.href = "#";
+        }
+
+
         nameLink.onclick = function (e) {
             e.preventDefault();
             let employeeDealsUrl = dealsUrl.concat(`?sellerId=${employee.id}`);
             fetch(employeeDealsUrl).then(r => r.json()).then(deals => renderDeals(deals));
         };
+
 
         clonedRow.querySelector("#thPost").innerHTML = `${employee.post}`;
         clonedRow.querySelector("#thSalary").innerHTML = `${employee.salary}`;
@@ -272,18 +279,27 @@ function renderDeals(deals) {
     let mainContent = document.querySelector("#mainContent");
     let dealCardTemplate = document.querySelector('#dealCard').content.cloneNode(true);
     let container = dealCardTemplate.querySelector("#dealCardContainer").cloneNode(true);
-    let containerCopy = container.querySelector(".card").cloneNode(true);
+    let containerCard = container.querySelector(".deal-card").cloneNode(true);
+    let noDeals = container.querySelector("#noDeal").cloneNode(true);
     mainContent.innerHTML = "";
     container.innerHTML = "";
 
+    if(deals.length === 0) {
+        container.appendChild(noDeals);
+        mainContent.appendChild(container);
+        return;
+    }
     deals.forEach(function (deal) {
-        let templateClone = containerCopy.cloneNode(true);
+        let templateClone = containerCard.cloneNode(true);
         loadEmployee(`${deal.sellerId}`)
             .then((manager) => templateClone.querySelector("#dealManager").innerHTML += `${manager.full_name}`);
         loadProduct(`${deal.productId}`)
             .then((product) => {
-                templateClone.querySelector(".list-group-item")
-                    .innerHTML += `${product.brand} ${product.description}`;
+                templateClone.querySelector(".deal-product")
+                    .innerHTML += `${product.brand}`;
+
+                templateClone.querySelector(".deal-description")
+                    .innerHTML += `${product.description}`;
                 templateClone.querySelector("#dealPrice").innerHTML += `${product.price}$`;
             });
         templateClone.querySelector("#dealId").innerHTML += `${deal.id}`;
