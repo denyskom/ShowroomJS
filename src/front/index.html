@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src ="main.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
 
 </head>
 <body>
@@ -120,15 +121,19 @@
                 <div class="form-group col-md-6">
                     <label for="inputName">Full Name:</label>
                     <input type="text" class="form-control" id="inputName" placeholder="Name" required>
+                    <span class="help-block" hidden>*</span>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputPost">Post: </label>
-                    <input type="text" class="form-control" id="inputPost" required>
+                    <input type="text" class="form-control" id="inputPost" placeholder="Post" required>
+                    <span class="help-block" hidden>*</span>
+
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="inputSalary">Salary</label>
                     <input type="text" class="form-control" id="inputSalary" placeholder="Salary" required>
+                    <span class="help-block">*</span>
                 </div>
 
                 <div class="form-group col-md-4">
@@ -138,7 +143,7 @@
                     </select>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" id="addButton">Hire</button>
+            <button type="button" class="btn btn-primary" id="addButton">Hire</button>
         </form>
     </div>
 </template>

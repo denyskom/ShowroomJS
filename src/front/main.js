@@ -5,7 +5,7 @@ const assortmentUrl = 'http://localhost:3000/assortment';
 
 function init() {
     window.addEventListener(onload,loadAssortment().then((data) => renderAssortment(data)));
-    document.querySelector("#employeeButton").onclick = loadAndRenderEmployee;
+    document.querySelector("#employeeButton").onclick = loadAndRenderEmployees;
     document.querySelector("#assortmentButton").onclick = loadAndRenderAssortment;
     document.querySelector("#dealsButton").onclick = loadAndRenderDeals;
 
@@ -77,8 +77,8 @@ function renderNewDealForm(productId) {
     });
 
     mainContent.appendChild(dealTemplateCopy);
-
 }
+
 function addNewDeal(e) {
     let managerId = Number(document.querySelector("#managers").value);
     let price = Number(document.querySelector(".dealPrice").value);
@@ -100,179 +100,6 @@ function addNewDeal(e) {
 
 function loadAndRenderAssortment() {
     loadAssortment().then((data) => renderAssortment(data));
-}
-
-function loadEmployees() {
-    return fetch(employeesUrl).then(r => r.json());
-}
-
-function loadEmployee(id) {
-    let url = employeesUrl.concat("/"+id);
-    return fetch(url).then(r => r.json());
-}
-
-function loadManagers() {
-    let url = employeesUrl.concat("?salary_type=2");
-    return fetch(url).then(r => r.json());
-}
-
-function renderEmployeeList(employees) {
-    let mainContent = document.querySelector("#mainContent");
-    mainContent.innerHTML = "";
-    let employeeTemplate = document.querySelector('#employeeTable');
-    let table = employeeTemplate.content.cloneNode(true);
-    let body = table.querySelector("#tableBody");
-    let row = body.querySelector("#tableRow").cloneNode(true);
-    body.innerHTML ="";
-
-    employees.forEach(function (employee) {
-        let clonedRow = row.cloneNode(true);
-        clonedRow.querySelector("#thId").innerHTML = `${employee.id}`;
-
-        let nameLink = clonedRow.querySelector(".table-link");
-        nameLink.innerHTML = `${employee.full_name}`;
-
-        if(`${employee.salary_type}` == 2) {
-            nameLink.href = "#";
-        }
-
-
-        nameLink.onclick = function (e) {
-            e.preventDefault();
-            let employeeDealsUrl = dealsUrl.concat(`?sellerId=${employee.id}`);
-            fetch(employeeDealsUrl).then(r => r.json()).then(deals => renderDeals(deals));
-        };
-
-
-        clonedRow.querySelector("#thPost").innerHTML = `${employee.post}`;
-        clonedRow.querySelector("#thSalary").innerHTML = `${employee.salary}`;
-        clonedRow.querySelector(".delete").onclick = function (e) {
-            e.preventDefault();
-            let deleteUrl = employeesUrl.concat(`/${employee.id}`);
-            fetch(deleteUrl, {method:'DELETE'}).then(() => loadAndRenderEmployee());
-        };
-
-        let editButton = clonedRow.querySelector(".edit");
-        editButton.onclick = function (e) {
-            e.preventDefault();
-            renderEditForm(employee.id);
-        };
-
-        body.appendChild(clonedRow);
-    });
-    table.querySelector("#hireButton").onclick = renderHireForm;
-    mainContent.appendChild(table);
-}
-
-function renderHireForm() {
-    let mainContent = document.querySelector("#mainContent");
-    mainContent.innerHTML = "";
-    let hireTemplate = document.querySelector("#hireTemplate");
-    let form = hireTemplate.content.cloneNode(true);
-    let inputSalaryType = form.querySelector("#inputSalaryType");
-    let option = inputSalaryType.querySelector(".salaryOption");
-    inputSalaryType.innerHTML = "";
-
-    loadSalaryTypes().then((types) => types.forEach(function (type) {
-        let optionClone = option.cloneNode(true);
-        optionClone.innerHTML = `${type.name}`;
-        optionClone.value = `${type.id}`;
-        inputSalaryType.appendChild(optionClone);
-    }));
-    form.querySelector("#addButton").onclick = addEmployee;
-    mainContent.appendChild(form);
-}
-
-function renderEditForm(id) {
-    let intId = Number(id);
-    let mainContent = document.querySelector("#mainContent");
-    mainContent.innerHTML = "";
-    let hireTemplate = document.querySelector("#hireTemplate");
-    let form = hireTemplate.content.cloneNode(true);
-    let inputSalaryType = form.querySelector("#inputSalaryType");
-    let option = inputSalaryType.querySelector(".salaryOption");
-    let title = form.querySelector("#hireTitle");
-    inputSalaryType.innerHTML = "";
-
-    loadSalaryTypes().then((types) => types.forEach(function (type) {
-        let optionClone = option.cloneNode(true);
-        optionClone.innerHTML = `${type.name}`;
-        optionClone.value = `${type.id}`;
-        inputSalaryType.appendChild(optionClone);
-    }));
-
-    let inputName = form.querySelector("#inputName");
-    let inputPost = form.querySelector("#inputPost");
-    let inputSalary = form.querySelector("#inputSalary");
-
-
-    loadEmployee(intId).then(employee => {
-        title.innerHTML = `Update user: ${employee.full_name}`;
-        inputName.value = `${employee.full_name}`;
-        inputPost.value = `${employee.post}`;
-        inputSalary.value = `${employee.salary}`;
-    });
-
-    form.querySelector("#hireTitle").innerHTML = `Update user:`;
-    let button = form.querySelector("#addButton");
-    button.innerHTML = "Edit";
-    button.onclick = function () {
-        editEmployee(intId);
-    };
-    mainContent.appendChild(form);
-}
-
-function editEmployee(id) {
-    let url = employeesUrl.concat(`/${id}`);
-    let inputName = document.querySelector("#inputName").value;
-    let inputPost = document.querySelector("#inputPost").value;
-    let inputSalary = document.querySelector("#inputSalary").value;
-    let salaryType = document.querySelector("#inputSalaryType").value;
-    let salaryTypeInt = Number(salaryType);
-
-    fetch(url, {
-        method:'PATCH',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-type':'application/json'
-        },
-        body:JSON.stringify({full_name:inputName,
-            salary:inputSalary,
-            post:inputPost,
-            salary_type:salaryTypeInt
-        })
-    }).then(() => loadAndRenderEmployee());
-}
-
-function addEmployee(e) {
-    let fullName = document.querySelector("#inputName").value;
-    let salaryType = document.querySelector("#inputSalaryType").value;
-    let salaryTypeInt = Number(salaryType);
-    let salary = document.querySelector("#inputSalary").value;
-    let post = document.querySelector("#inputPost").value;
-    e.preventDefault();
-
-    fetch(employeesUrl, {
-        method:'POST',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-type':'application/json'
-        },
-        body:JSON.stringify({full_name:fullName,
-            salary:salary,
-            post:post,
-            salary_type:salaryTypeInt
-        })
-    }).then(() => loadAndRenderEmployee());
-
-}
-
-function loadAndRenderEmployee() {
-    loadEmployees().then((data) => renderEmployeeList(data));
-}
-
-function loadDeals() {
-    return fetch(dealsUrl).then(r => r.json());
 }
 
 function renderDeals(deals) {
@@ -309,8 +136,181 @@ function renderDeals(deals) {
     mainContent.appendChild(container);
 }
 
+function loadDeals() {
+    return fetch(dealsUrl).then(r => r.json());
+}
+
 function loadAndRenderDeals() {
     loadDeals().then((data) => renderDeals(data));
+}
+
+function renderEmployeeList(employees) {
+    let mainContent = document.querySelector("#mainContent");
+    mainContent.innerHTML = "";
+    let employeeTemplate = document.querySelector('#employeeTable');
+    let table = employeeTemplate.content.cloneNode(true);
+    let body = table.querySelector("#tableBody");
+    let row = body.querySelector("#tableRow").cloneNode(true);
+    body.innerHTML ="";
+
+    employees.forEach(function (employee) {
+        let clonedRow = row.cloneNode(true);
+        clonedRow.querySelector("#thId").innerHTML = `${employee.id}`;
+
+        let nameLink = clonedRow.querySelector(".table-link");
+        nameLink.innerHTML = `${employee.full_name}`;
+
+        if(`${employee.salary_type}` == 2) {
+            nameLink.href = "#";
+        }
+
+        nameLink.onclick = function (e) {
+            e.preventDefault();
+            let employeeDealsUrl = dealsUrl.concat(`?sellerId=${employee.id}`);
+            fetch(employeeDealsUrl).then(r => r.json()).then(deals => renderDeals(deals));
+        };
+
+
+        clonedRow.querySelector("#thPost").innerHTML = `${employee.post}`;
+        clonedRow.querySelector("#thSalary").innerHTML = `${employee.salary}`;
+        clonedRow.querySelector(".delete").onclick = function (e) {
+            e.preventDefault();
+            let deleteUrl = employeesUrl.concat(`/${employee.id}`);
+            fetch(deleteUrl, {method:'DELETE'}).then(() => loadAndRenderEmployees());
+        };
+
+        let editButton = clonedRow.querySelector(".edit");
+        editButton.onclick = function (e) {
+            e.preventDefault();
+            renderEditForm(employee.id);
+        };
+
+        body.appendChild(clonedRow);
+    });
+    table.querySelector("#hireButton").onclick = renderHireForm;
+    mainContent.appendChild(table);
+}
+
+function loadEmployees() {
+    return fetch(employeesUrl).then(r => r.json());
+}
+
+function loadEmployee(id) {
+    let url = employeesUrl.concat("/"+id);
+    return fetch(url).then(r => r.json());
+}
+
+function loadAndRenderEmployees() {
+    loadEmployees().then((data) => renderEmployeeList(data));
+}
+
+function loadManagers() {
+    let url = employeesUrl.concat("?salary_type=2");
+    return fetch(url).then(r => r.json());
+}
+
+function renderHireForm() {
+    let mainContent = document.querySelector("#mainContent");
+    mainContent.innerHTML = "";
+    let hireTemplate = document.querySelector("#hireTemplate");
+    let form = hireTemplate.content.cloneNode(true);
+    let inputSalaryType = form.querySelector("#inputSalaryType");
+    let option = inputSalaryType.querySelector(".salaryOption");
+    inputSalaryType.innerHTML = "";
+    inputSalaryType.oninput = validateMangerInput;
+
+    loadSalaryTypes().then((types) => types.forEach(function (type) {
+        let optionClone = option.cloneNode(true);
+        optionClone.innerHTML = `${type.name}`;
+        optionClone.value = `${type.id}`;
+        inputSalaryType.appendChild(optionClone);
+    }));
+    form.querySelector("#addButton").onclick = addEmployee;
+    mainContent.appendChild(form);
+}
+
+function renderEditForm(id) {
+    let intId = Number(id);
+    let mainContent = document.querySelector("#mainContent");
+    mainContent.innerHTML = "";
+    let hireTemplate = document.querySelector("#hireTemplate");
+    let form = hireTemplate.content.cloneNode(true);
+    let inputSalaryType = form.querySelector("#inputSalaryType");
+    let option = inputSalaryType.querySelector(".salaryOption");
+    let title = form.querySelector("#hireTitle");
+    inputSalaryType.innerHTML = "";
+
+    loadSalaryTypes().then((types) => types.forEach(function (type) {
+        let optionClone = option.cloneNode(true);
+        optionClone.innerHTML = `${type.name}`;
+        optionClone.value = `${type.id}`;
+        inputSalaryType.appendChild(optionClone);
+    }));
+
+    let inputName = form.querySelector("#inputName");
+    let inputPost = form.querySelector("#inputPost");
+    let inputSalary = form.querySelector("#inputSalary");
+
+    inputSalaryType.oninput = validateMangerInput;
+
+    loadEmployee(intId).then(employee => {
+        title.innerHTML = `Update user: ${employee.full_name}`;
+        inputName.value = `${employee.full_name}`;
+        inputPost.value = `${employee.post}`;
+        inputSalary.value = `${employee.salary}`;
+    });
+
+    form.querySelector("#hireTitle").innerHTML = `Update user:`;
+    let button = form.querySelector("#addButton");
+    button.innerHTML = "Edit";
+    button.onclick = function () {
+        editEmployee(intId);
+    };
+    mainContent.appendChild(form);
+}
+
+function editEmployee(id) {
+    let url = employeesUrl.concat(`/${id}`);
+    let inputName = document.querySelector("#inputName").value;
+    let inputPost = document.querySelector("#inputPost").value;
+    let inputSalary = document.querySelector("#inputSalary").value;
+    let salaryType = document.querySelector("#inputSalaryType").value;
+    let salaryTypeInt = Number(salaryType);
+
+    fetch(url, {
+        method:'PATCH',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-type':'application/json'
+        },
+        body:JSON.stringify({full_name:inputName,
+            salary:inputSalary,
+            post:inputPost,
+            salary_type:salaryTypeInt
+        })
+    }).then(() => loadAndRenderEmployees());
+}
+
+function addEmployee() {
+    let fullName = document.querySelector("#inputName").value;
+    let salaryType = document.querySelector("#inputSalaryType").value;
+    let salaryTypeInt = Number(salaryType);
+    let salary = document.querySelector("#inputSalary").value;
+    let post = document.querySelector("#inputPost").value;
+
+    fetch(employeesUrl, {
+        method:'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-type':'application/json'
+        },
+        body:JSON.stringify({full_name:fullName,
+            salary:salary,
+            post:post,
+            salary_type:salaryTypeInt
+        })
+    }).then(() => loadAndRenderEmployees());
+
 }
 
 function loadSalaryTypes() {
@@ -321,3 +321,17 @@ function loadSalaryType(id) {
     return fetch(salaryTypeUrl.concat(`/${id}`)).then(r => r.json());
 }
 
+function validateMangerInput() {
+    if(`${inputSalaryType.value}` == 2) {
+        inputPost.value = "Manager";
+        inputSalary.value = "%";
+        inputPost.disabled = true;
+        inputSalary.disabled = true;
+        console.log(`${inputPost.value}`);
+    } else {
+        inputPost.value = "";
+        inputSalary.value = "";
+        inputPost.disabled = false;
+        inputSalary.disabled = false;
+    }
+}
