@@ -30,13 +30,6 @@
       "post": "Bookkeeper",
       "salary_type": 1,
       "salary": "5000"
-    },
-    {
-      "full_name": "New Manager",
-      "salary": "%",
-      "post": "Manager",
-      "salary_type": 2,
-      "id": 5
     }
   ],
   "deals": [

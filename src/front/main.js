@@ -61,12 +61,7 @@ function renderNewDealForm(productId) {
     let option = managersList.querySelector(".managerOption");
     managersList.innerHTML = "";
 
-    loadManagers().then(managers => managers.forEach(function (manager) {
-        let optionClone = option.cloneNode(true);
-        optionClone.innerHTML = `${manager.full_name}`;
-        optionClone.value = Number(`${manager.id}`);
-        managersList.appendChild(optionClone);
-    }));
+    mapManagersNameToId(option, managersList);
 
     loadProduct(productId).then((product) => {
         brand.innerHTML += `${product.brand}`;
@@ -78,6 +73,15 @@ function renderNewDealForm(productId) {
     });
 
     mainContent.appendChild(dealTemplateCopy);
+}
+
+function mapManagersNameToId(option, managersList) {
+    loadManagers().then(managers => managers.forEach(function (manager) {
+        let optionClone = option.cloneNode(true);
+        optionClone.innerHTML = `${manager.full_name}`;
+        optionClone.value = Number(`${manager.id}`);
+        managersList.appendChild(optionClone);
+    }));
 }
 
 function addNewDeal(e) {
