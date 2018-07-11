@@ -217,6 +217,10 @@ function renderHireForm() {
     let inputSalaryType = form.querySelector("#inputSalaryType");
     let option = inputSalaryType.querySelector(".salaryOption");
     inputSalaryType.innerHTML = "";
+
+    form.querySelector("#inputPost").onblur = validatePost;
+    form.querySelector("#inputSalary").onblur = validateSalary;
+    form.querySelector("#inputName").onblur = validateName;
     inputSalaryType.oninput = validateMangerInput;
 
     loadSalaryTypes().then((types) => types.forEach(function (type) {
@@ -251,6 +255,9 @@ function renderEditForm(id) {
     let inputPost = form.querySelector("#inputPost");
     let inputSalary = form.querySelector("#inputSalary");
 
+    inputPost.onblur = validatePost;
+    inputName.onblur = validateName;
+    inputSalary.onblur = validateSalary;
     inputSalaryType.oninput = validateMangerInput;
 
     loadEmployee(intId).then(employee => {
@@ -264,9 +271,13 @@ function renderEditForm(id) {
     let button = form.querySelector("#addButton");
     button.innerHTML = "Edit";
     button.onclick = function () {
+        if(!validateForm()) {
+            return;
+        }
         editEmployee(intId);
     };
     mainContent.appendChild(form);
+
 }
 
 function editEmployee(id) {
@@ -322,7 +333,7 @@ function loadSalaryType(id) {
 }
 
 function validateMangerInput() {
-    if(`${inputSalaryType.value}` == 2) {
+    if(inputSalaryType.value == 2) {
         inputPost.value = "Manager";
         inputSalary.value = "%";
         inputPost.disabled = true;
@@ -335,3 +346,48 @@ function validateMangerInput() {
         inputSalary.disabled = false;
     }
 }
+
+function validateSalary() {
+    let salaryValue = `${inputSalary.value}`;
+    let err = inputSalary.parentElement.querySelector(".help-block");
+
+    if(isNaN(salaryValue) || salaryValue == "") {
+        err.innerHTML = "*Salary should be the number!";
+        err.hidden = false;
+        inputSalary.focus();
+        return false;
+    }
+    return true;
+}
+
+function validateName() {
+    let name = `${inputName.value}`;
+    let err = inputName.parentElement.querySelector(".help-block");
+    err.hidden = true;
+    if(name.length <2 || name == "") {
+        err.innerHTML = "*Name shouldn't be empty or shorter than 2 symbols";
+        err.hidden = false;
+        inputName.focus();
+        return false;
+    }
+    return true;
+}
+
+
+function validatePost() {
+    let post = `${inputPost.value}`;
+    let err = inputPost.parentElement.querySelector(".help-block");
+    err.hidden = true;
+    if(post.length <2 || post == "") {
+        err.innerHTML = "*Post shouldn't be empty or shorter than 2 symbols";
+        err.hidden = false;
+        inputName.focus();
+        return false;
+    }
+    return true;
+}
+
+function validateForm() {
+    return validatePost() || validateForm() || validateName();
+}
+
