@@ -11,25 +11,25 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Showroom</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav justify-content-end container-fluid">
-            <li class="nav-item">
-                <a class="nav-link" id="assortmentButton" href="#">Assortment <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " id="dealsButton" href="#">Deals</a>
-            </li>
-            <li class="nav-item" >
-                <a class="nav-link" id="employeeButton" href="#">Employee</a>
-            </li>
-        </ul>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Showroom</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav justify-content-end container-fluid">
+                <li class="nav-item">
+                    <a class="nav-link" id="assortmentButton" href="#">Assortment <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="dealsButton" href="#">Deals</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" id="employeeButton" href="#">Employee</a>
+                </li>
+            </ul>
+        </div>
 </nav>
 <main id = "mainContent">
 
@@ -47,7 +47,7 @@
                            <p class="card-text text-left" id="productDescription"></p>
                            <p class="card-text" id="productPrice">Price: </p>
                            <input type="hidden" class="productId">
-                           <button type="submit" class="btn btn-primary">Create Deal</button>
+                           <button type="submit" class="btn btn-outline-primary">Create Deal</button>
                        </div>
                    </div>
                </div>
@@ -76,14 +76,14 @@
                 <td id="thSalary"></td>
                 <td>
                     <div class="btn-group-toggle" data-toggle="buttons">
-                        <button class="edit btn btn-outline-primary" type="submit">Edit</button>
-                        <button class="delete btn btn-outline-dark btn-small" type="submit">Delete</button>
+                        <button class="edit btn btn-outline-primary mt-1" type="submit">Edit</button>
+                        <button class="delete btn btn-outline-dark mt-1" type="submit">Delete</button>
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-outline-secondary btn-lg btn-block" id="hireButton">Hire</button>
+        <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="hireButton">Hire</button>
     </div>
 </template>
 
@@ -142,7 +142,7 @@
                     </select>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary" id="addButton">Hire</button>
+            <button type="button" class="btn btn-outline-primary" id="addButton">Hire</button>
         </form>
     </div>
 </template>
@@ -165,7 +165,7 @@
                            <p class="card-text" id="newDealPrice">Total Price: </p>
                            <input type="hidden" class="productId">
                            <input type="hidden" class="dealPrice">
-                           <button type="submit" class="btn btn-primary" id="dealButton">Add Deal</button>
+                           <button type="submit" class="btn btn-outline-primary" id="dealButton">Add Deal</button>
                        </div>
                    </div>
                </div>

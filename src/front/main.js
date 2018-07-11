@@ -1,7 +1,8 @@
-const salaryTypeUrl = 'http://localhost:3000/salary_type';
-const employeesUrl = 'http://localhost:3000/employees';
-const dealsUrl = 'http://localhost:3000/deals';
-const assortmentUrl = 'http://localhost:3000/assortment';
+const SALARY_TYPE_URL = 'http://localhost:3000/salary_type';
+const EMPLOYEES_URL = 'http://localhost:3000/employees';
+const DEALS_URL = 'http://localhost:3000/deals';
+const ASSORTMENT_URL = 'http://localhost:3000/assortment';
+const PERSENTAGE_ID = 2;
 
 function init() {
     window.addEventListener(onload,loadAssortment().then((data) => renderAssortment(data)));
@@ -14,11 +15,11 @@ function init() {
 window.onload = init;
 
 function loadAssortment() {
-    return fetch(assortmentUrl).then(r => r.json());
+    return fetch(ASSORTMENT_URL).then(r => r.json());
 }
 
 function loadProduct(id) {
-    let url = assortmentUrl.concat("/"+id);
+    let url = ASSORTMENT_URL.concat("/"+id);
     return fetch(url).then(r => r.json());
 }
 
@@ -85,7 +86,7 @@ function addNewDeal(e) {
     let productId = Number(document.querySelector(".productId").value);
     e.preventDefault();
 
-    fetch(dealsUrl, {
+    fetch(DEALS_URL, {
         method:'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -137,7 +138,7 @@ function renderDeals(deals) {
 }
 
 function loadDeals() {
-    return fetch(dealsUrl).then(r => r.json());
+    return fetch(DEALS_URL).then(r => r.json());
 }
 
 function loadAndRenderDeals() {
@@ -160,13 +161,13 @@ function renderEmployeeList(employees) {
         let nameLink = clonedRow.querySelector(".table-link");
         nameLink.innerHTML = `${employee.full_name}`;
 
-        if(`${employee.salary_type}` == 2) {
+        if(`${employee.salary_type}` == PERSENTAGE_ID) {
             nameLink.href = "#";
         }
 
         nameLink.onclick = function (e) {
             e.preventDefault();
-            let employeeDealsUrl = dealsUrl.concat(`?sellerId=${employee.id}`);
+            let employeeDealsUrl = DEALS_URL.concat(`?sellerId=${employee.id}`);
             fetch(employeeDealsUrl).then(r => r.json()).then(deals => renderDeals(deals));
         };
 
@@ -175,7 +176,7 @@ function renderEmployeeList(employees) {
         clonedRow.querySelector("#thSalary").innerHTML = `${employee.salary}`;
         clonedRow.querySelector(".delete").onclick = function (e) {
             e.preventDefault();
-            let deleteUrl = employeesUrl.concat(`/${employee.id}`);
+            let deleteUrl = EMPLOYEES_URL.concat(`/${employee.id}`);
             fetch(deleteUrl, {method:'DELETE'}).then(() => loadAndRenderEmployees());
         };
 
@@ -192,11 +193,11 @@ function renderEmployeeList(employees) {
 }
 
 function loadEmployees() {
-    return fetch(employeesUrl).then(r => r.json());
+    return fetch(EMPLOYEES_URL).then(r => r.json());
 }
 
 function loadEmployee(id) {
-    let url = employeesUrl.concat("/"+id);
+    let url = EMPLOYEES_URL.concat("/"+id);
     return fetch(url).then(r => r.json());
 }
 
@@ -205,7 +206,7 @@ function loadAndRenderEmployees() {
 }
 
 function loadManagers() {
-    let url = employeesUrl.concat("?salary_type=2");
+    let url = EMPLOYEES_URL.concat(`?salary_type=${PERSENTAGE_ID}`);
     return fetch(url).then(r => r.json());
 }
 
@@ -223,12 +224,8 @@ function renderHireForm() {
     form.querySelector("#inputName").onblur = validateName;
     inputSalaryType.oninput = validateMangerInput;
 
-    loadSalaryTypes().then((types) => types.forEach(function (type) {
-        let optionClone = option.cloneNode(true);
-        optionClone.innerHTML = `${type.name}`;
-        optionClone.value = `${type.id}`;
-        inputSalaryType.appendChild(optionClone);
-    }));
+    mapSalaryTypeToId(option,inputSalaryType);
+
     form.querySelector("#addButton").onclick = addEmployee;
     mainContent.appendChild(form);
 }
@@ -237,19 +234,13 @@ function renderEditForm(id) {
     let intId = Number(id);
     let mainContent = document.querySelector("#mainContent");
     mainContent.innerHTML = "";
-    let hireTemplate = document.querySelector("#hireTemplate");
-    let form = hireTemplate.content.cloneNode(true);
+    let form = document.querySelector("#hireTemplate").content.cloneNode(true);
     let inputSalaryType = form.querySelector("#inputSalaryType");
     let option = inputSalaryType.querySelector(".salaryOption");
     let title = form.querySelector("#hireTitle");
     inputSalaryType.innerHTML = "";
 
-    loadSalaryTypes().then((types) => types.forEach(function (type) {
-        let optionClone = option.cloneNode(true);
-        optionClone.innerHTML = `${type.name}`;
-        optionClone.value = `${type.id}`;
-        inputSalaryType.appendChild(optionClone);
-    }));
+    mapSalaryTypeToId(option,inputSalaryType);
 
     let inputName = form.querySelector("#inputName");
     let inputPost = form.querySelector("#inputPost");
@@ -277,11 +268,19 @@ function renderEditForm(id) {
         editEmployee(intId);
     };
     mainContent.appendChild(form);
+}
 
+function mapSalaryTypeToId(option, inputSalaryType) {
+    loadSalaryTypes().then((types) => types.forEach(function (type) {
+        let optionClone = option.cloneNode(true);
+        optionClone.innerHTML = `${type.name}`;
+        optionClone.value = `${type.id}`;
+        inputSalaryType.appendChild(optionClone);
+    }));
 }
 
 function editEmployee(id) {
-    let url = employeesUrl.concat(`/${id}`);
+    let url = EMPLOYEES_URL.concat(`/${id}`);
     let inputName = document.querySelector("#inputName").value;
     let inputPost = document.querySelector("#inputPost").value;
     let inputSalary = document.querySelector("#inputSalary").value;
@@ -309,7 +308,11 @@ function addEmployee() {
     let salary = document.querySelector("#inputSalary").value;
     let post = document.querySelector("#inputPost").value;
 
-    fetch(employeesUrl, {
+    if(!validateForm()) {
+        return;
+    }
+
+    fetch(EMPLOYEES_URL, {
         method:'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -325,20 +328,19 @@ function addEmployee() {
 }
 
 function loadSalaryTypes() {
-    return fetch(salaryTypeUrl).then(r => r.json());
+    return fetch(SALARY_TYPE_URL).then(r => r.json());
 }
 
 function loadSalaryType(id) {
-    return fetch(salaryTypeUrl.concat(`/${id}`)).then(r => r.json());
+    return fetch(SALARY_TYPE_URL.concat(`/${id}`)).then(r => r.json());
 }
 
 function validateMangerInput() {
-    if(inputSalaryType.value == 2) {
+    if(inputSalaryType.value == PERSENTAGE_ID) {
         inputPost.value = "Manager";
         inputSalary.value = "%";
         inputPost.disabled = true;
         inputSalary.disabled = true;
-        console.log(`${inputPost.value}`);
     } else {
         inputPost.value = "";
         inputSalary.value = "";
@@ -350,6 +352,10 @@ function validateMangerInput() {
 function validateSalary() {
     let salaryValue = `${inputSalary.value}`;
     let err = inputSalary.parentElement.querySelector(".help-block");
+
+    if(`${inputSalaryType.value}` == PERSENTAGE_ID) {
+        return true;
+    }
 
     if(isNaN(salaryValue) || salaryValue == "") {
         err.innerHTML = "*Salary should be the number!";
@@ -364,6 +370,14 @@ function validateName() {
     let name = `${inputName.value}`;
     let err = inputName.parentElement.querySelector(".help-block");
     err.hidden = true;
+    loadEmployees().then(employees => employees.forEach(emp => {
+            if(emp.full_name == name) {
+                err.innerHTML = "*Such user already exists";
+                err.hidden = false;
+                inputName.focus();
+                return false;
+            }
+    }));
     if(name.length <2 || name == "") {
         err.innerHTML = "*Name shouldn't be empty or shorter than 2 symbols";
         err.hidden = false;
@@ -388,6 +402,6 @@ function validatePost() {
 }
 
 function validateForm() {
-    return validatePost() || validateForm() || validateName();
+    return validateName() && validateSalary() && validateName();
 }
 
