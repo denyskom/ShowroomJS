@@ -1,8 +1,10 @@
-const SALARY_TYPE_URL = 'http://localhost:3000/salary_type';
-const EMPLOYEES_URL = 'http://localhost:3000/employees';
-const DEALS_URL = 'http://localhost:3000/deals';
-const ASSORTMENT_URL = 'http://localhost:3000/assortment';
-const PERSENTAGE_ID = 2;
+const PORT = 3000;
+const DOMAIN = `http://localhost:${PORT}/`;
+const SALARY_TYPE_URL = `${DOMAIN}salary_type`;
+const EMPLOYEES_URL = `${DOMAIN}employees`;
+const DEALS_URL = `${DOMAIN}deals`;
+const ASSORTMENT_URL = `${DOMAIN}assortment`;
+const PERCENTAGE_ID = 2;
 
 function init() {
     window.addEventListener(onload,loadAssortment().then((data) => renderAssortment(data)));
@@ -165,7 +167,7 @@ function renderEmployeeList(employees) {
         let nameLink = clonedRow.querySelector(".table-link");
         nameLink.innerHTML = `${employee.full_name}`;
 
-        if(`${employee.salary_type}` == PERSENTAGE_ID) {
+        if(`${employee.salary_type}` == PERCENTAGE_ID) {
             nameLink.href = "#";
         }
 
@@ -210,7 +212,7 @@ function loadAndRenderEmployees() {
 }
 
 function loadManagers() {
-    let url = EMPLOYEES_URL.concat(`?salary_type=${PERSENTAGE_ID}`);
+    let url = EMPLOYEES_URL.concat(`?salary_type=${PERCENTAGE_ID}`);
     return fetch(url).then(r => r.json());
 }
 
@@ -340,7 +342,7 @@ function loadSalaryType(id) {
 }
 
 function validateMangerInput() {
-    if(inputSalaryType.value == PERSENTAGE_ID) {
+    if(inputSalaryType.value == PERCENTAGE_ID) {
         inputPost.value = "Manager";
         inputSalary.value = "%";
         inputPost.disabled = true;
@@ -357,7 +359,7 @@ function validateSalary() {
     let salaryValue = `${inputSalary.value}`;
     let err = inputSalary.parentElement.querySelector(".help-block");
 
-    if(`${inputSalaryType.value}` == PERSENTAGE_ID) {
+    if(`${inputSalaryType.value}` == PERCENTAGE_ID) {
         return true;
     }
 
