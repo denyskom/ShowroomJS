@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "server": "json-server --watch db.json --port 3000"
   },
   "dependencies": {
     "json-server": "^0.14.0"
